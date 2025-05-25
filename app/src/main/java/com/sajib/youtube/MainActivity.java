@@ -278,21 +278,24 @@ public class MainActivity extends AppCompatActivity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
 
-            // Inject JavaScript to mimic h264ify extension by disabling VP8/VP9 codecs
             String js = "javascript:(function() { " +
-                    "let original = window.MediaSource && window.MediaSource.isTypeSupported;" +
-                    "if (original) {" +
-                    "   let blocked = ['vp8', 'vp9', 'webm'];" +
-                    "   MediaSource.isTypeSupported = function(type) {" +
-                    "       for (let codec of blocked) {" +
-                    "           if (type.includes(codec)) return false;" +
-                    "       }" +
-                    "       return original.call(this, type);" +
-                    "   }" +
-                    "}" +
+                    "if (window.MediaSource && MediaSource.isTypeSupported) { " +
+                    "   const original = MediaSource.isTypeSupported.bind(MediaSource); " +
+                    "   const blocked = ['vp8', 'vp9', 'vp09']; " +  // Explicitly block vp09
+                    "   MediaSource.isTypeSupported = function(type) { " +
+                    "       if (!type) return false; " +
+                    "       const lower = type.toLowerCase(); " +
+                    "       for (let codec of blocked) { " +
+                    "           if (lower.includes(codec)) return false; " +
+                    "       } " +
+                    "       return original(type); " +
+                    "   }; " +
+                    "} " +
                     "})();";
 
             view.evaluateJavascript(js, null);
+
+
         }
 
         private boolean isBlockedHost(String host) {
