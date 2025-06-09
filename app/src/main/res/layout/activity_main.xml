@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <FrameLayout
+        android:id="@+id/fullScreenContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:background="#000000" />
+
+    <!-- Swipe Back Arrow -->
+    <ImageView
+        android:id="@+id/swipeIndicator"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_gravity="center"
+        android:contentDescription="@string/gesture_image"
+        android:src="@drawable/ic_arrow_back"
+        android:background="@drawable/circle_background"
+        app:tint="@android:color/holo_red_dark"
+        android:scaleType="centerInside"
+        android:visibility="gone" />
+
+</FrameLayout>
